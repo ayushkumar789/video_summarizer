@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Summary and Keyframes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 p-8 font-sans">
+  <div class="max-w-5xl mx-auto bg-white p-8 rounded-xl shadow-md">
+    <h1 class="text-3xl font-bold text-blue-600 mb-4 text-center">Summary and Keyframes</h1>
+
+    <div class="space-y-6">
+      <div>
+        <h2 class="text-xl font-semibold">Video Transcription:</h2>
+        <p class="mt-2 text-gray-700">{{ transcript }}</p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-semibold">Summary:</h2>
+        <p class="mt-2 text-gray-700">{{ summary }}</p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-semibold">Keyframes:</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+          {% for frame in keyframes %}
+            <img src="{{ url_for('static', filename=frame) }}" class="rounded-lg shadow-md" alt="Keyframe">
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="text-center">
+        <a href="/download/{{ filename }}" class="inline-block mt-6 bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition">
+          Download PDF/Word
+        </a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
