@@ -5,6 +5,8 @@ from services.keyframe_extraction import extract_keyframes
 from utils.pdf_generator import generate_pdf
 from utils.word_generator import generate_word
 import os
+from config.db import db
+
 
 api = Blueprint("api", __name__)
 UPLOAD_FOLDER = os.path.join("static", "uploads")
@@ -46,6 +48,15 @@ def upload_video():
 @api.route("/process/<filename>", methods=["GET"])
 def process_video(filename):
     transcript, summary, keyframes, _, _ = process_and_export(filename)
+
+    # 💾 Save to MongoDB
+    db.summaries.insert_one({
+        "filename": filename,
+        "transcript": transcript,
+        "summary": summary,
+        "keyframes": keyframes
+    })
+
     return render_template("result.html", transcript=transcript, summary=summary, keyframes=keyframes, filename=filename)
 
 @api.route("/download/<filename>", methods=["GET"])
